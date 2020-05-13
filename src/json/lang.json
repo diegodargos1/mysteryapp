@@ -1,0 +1,86 @@
+{
+  "Dashboard": {
+    "eng": {
+      "search": "Search for a card",
+      "random": "Random card",
+      "create": "Create a new card",
+      "myCard": "My cards",
+      "top": "Top rated cards",
+      "howTo": "How to play"
+    },
+    "ptBr": {
+      "search": "Procurar carta",
+      "random": "Carta aleatória",
+      "create": "Crie sua carta",
+      "myCard": "Minhas cartas",
+      "top": "Mais votadas",
+      "howTo": "Como jogar"
+    }
+  },
+  "Settings": {
+    "eng": {
+      "select": "Select your language...",
+      "about": "About us",
+      "contact": "Contact us",
+      "logout": "Logout"
+    },
+    "ptBr": {
+      "select": "Selecione seu idioma...",
+      "about": "Sobre",
+      "contact": "Contato",
+      "logout": "Sair"
+    }
+  },
+  "Search": {
+    "eng": {
+      "search": "Search by Title",
+      "title": "Title",
+      "category": "Category",
+      "language": "Language",
+      "horror": "Horror",
+      "funny": "Funny",
+      "detective": "Detective",
+      "btnSearch": "Search",
+      "notFound": "There is 0 cards with this title and category."
+    },
+    "ptBr": {
+      "search": "Procurar por Título",
+      "title": "Título",
+      "category": "Categoria",
+      "language": "Idioma",
+      "horror": "Terror",
+      "funny": "Engraçado",
+      "detective": "Detetive",
+      "btnSearch": "Procurar",
+      "notFound": "Nenhuma carta encontrada para esse filtro."
+    }
+  },
+  "Create": {
+    "eng": {
+      "title": "Create your own card",
+      "cardTitle": "Card Title",
+      "category": "Category",
+      "mystery": "Mystery",
+      "resolution": "Resolution",
+      "reset": "Reset",
+      "save": "Save",
+      "horror": "Horror",
+      "funny": "Funny",
+      "detective": "Detective",
+      "selectCategory": "Select a category"
+    },
+    "ptBr": {
+      "title": "Crie sua própria carta",
+      "cardTitle": "Título",
+      "category": "Categoria",
+      "mystery": "Mistério",
+      "resolution": "Resolução",
+      "reset": "Resetar",
+      "save": "Salvar",
+      "horror": "Terror",
+      "funny": "Engraçado",
+      "detective": "Detetive",
+      "selectCategory": "Selecione..."
+    }
+  }
+}
