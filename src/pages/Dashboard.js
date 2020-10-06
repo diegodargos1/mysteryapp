@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
   Image,
   TouchableOpacity,
@@ -20,9 +19,9 @@ export default function Dashboard({ navigation }) {
 
   useEffect(() => {
     AsyncStorage.multiGet(["user_id", "language"]).then(([user, lang]) => {
-      if (!user) {
-        navigation.navigate("Login");
-      }
+      // if (!user) {
+      //   //navigation.navigate("Login");
+      // }
       if (!lang[1] || lang[1] == "eng") {
         AsyncStorage.setItem("language", "eng");
         setLanguage(languageJson.Dashboard.eng);
@@ -32,21 +31,24 @@ export default function Dashboard({ navigation }) {
     });
   }, [languageParam]);
 
-  async function handleSearch() {
+  function handleSearch() {
     navigation.navigate("SearchCard");
   }
 
-  async function handleCreate() {
+  function handleCreate() {
     navigation.navigate("CreateCard");
   }
-  async function handleRandom() {
+  function handleRandom() {
     navigation.navigate("RandomCard");
   }
-  async function handleMyCards() {
+  function handleMyCards() {
     navigation.navigate("MyCards");
   }
-  async function handleHowto() {
+  function handleHowto() {
     navigation.navigate("Howto");
+  }
+  function handleSettings() {
+    navigation.navigate("Settings");
   }
   return (
     <KeyboardAvoidingView
@@ -60,17 +62,17 @@ export default function Dashboard({ navigation }) {
       />
       <Menu />
       <View style={styles.cardMenu}>
-        <TouchableOpacity onPress={handleSearch}>
-          <View style={[menuStyle.menu, styles.cardColumn]}>
+        {/* <TouchableOpacity onPress={handleSearch}>
+          <View style={[menuStyle.menu, styles.cardColumn, { width: 170 }]}>
             <Text>{language.search}</Text>
             <Image
               source={require("../assets/card.png")}
               style={styles.cardImg}
             />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={handleRandom}>
-          <View style={[menuStyle.menu, styles.cardColumn]}>
+          <View style={[menuStyle.menu, styles.cardColumn, { width: 170 }]}>
             <Text>{language.random}</Text>
             <Image
               source={require("../assets/card.png")}
@@ -79,10 +81,10 @@ export default function Dashboard({ navigation }) {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={styles.cardMenu}>
+      {/* <View style={styles.cardMenu}>
         <View style={[menuStyle.menu, styles.cardLine]}>
           <TouchableOpacity onPress={handleCreate}>
-            <View style={styles.card}>
+            <View style={[styles.card, { width: 110 }]}>
               <Text>{language.create}</Text>
               <Image
                 source={require("../assets/card2.png")}
@@ -91,7 +93,7 @@ export default function Dashboard({ navigation }) {
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleMyCards}>
-            <View style={styles.card}>
+            <View style={[styles.card, { width: 110 }]}>
               <Text>{language.myCard}</Text>
               <Image
                 source={require("../assets/card2.png")}
@@ -100,13 +102,24 @@ export default function Dashboard({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
       <View style={styles.cardMenu}>
         <TouchableOpacity onPress={handleHowto}>
-          <View style={[menuStyle.menu, styles.cardColumn]}>
+          <View style={[menuStyle.menu, styles.cardColumn, { width: 170 }]}>
             <Text>{language.howTo}</Text>
             <Image
-              source={require("../assets/card.png")}
+              source={require("../assets/card2.png")}
+              style={styles.cardImg}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.cardMenu}>
+        <TouchableOpacity onPress={handleSettings}>
+          <View style={[menuStyle.menu, styles.cardColumn, { width: 170 }]}>
+            <Text>{language.settings}</Text>
+            <Image
+              source={require("../assets/card3.png")}
               style={styles.cardImg}
             />
           </View>

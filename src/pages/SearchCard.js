@@ -33,6 +33,10 @@ export default function SearchCard({ navigation }) {
     });
   }, []);
 
+  function handleSelect(e) {
+    setCategory(e);
+  }
+
   async function handleSearch() {
     const title = search;
     const res = await api.get("/listmystery", {
@@ -79,15 +83,15 @@ export default function SearchCard({ navigation }) {
             <View style={[styles.input, styles.selectBox]}>
               <RNPickerSelect
                 value={category}
-                onValueChange={setCategory}
+                onValueChange={handleSelect}
                 placeholder={{
-                  label: language.category,
+                  label: "Category",
                   value: "",
                 }}
                 items={[
-                  { label: language.horror, value: "Horror" },
-                  { label: language.detective, value: "Detective" },
-                  { label: language.funny, value: "Funny" },
+                  { label: "Horror", value: "Horror" },
+                  { label: "Detective", value: "Detective" },
+                  { label: "Funny", value: "Funny" },
                 ]}
               />
             </View>

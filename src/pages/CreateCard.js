@@ -35,7 +35,7 @@ export default function CreateCard({ navigation }) {
     async function session() {
       const user = await AsyncStorage.getItem("user_id").then((user) => {
         if (!user) {
-          navigation.navigate("Login");
+          //navigation.navigate("Login");
         }
         return user;
       });
@@ -45,6 +45,10 @@ export default function CreateCard({ navigation }) {
 
     session();
   }, []);
+
+  function handleSelect(e) {
+    setCategory(e);
+  }
 
   async function handleSave() {
     const res = await api.post(
@@ -56,7 +60,7 @@ export default function CreateCard({ navigation }) {
         mystery,
       },
       {
-        headers: { user_id },
+        headers: { user_id, language },
       }
     );
     const { data, msg, status } = res.data;
@@ -108,15 +112,15 @@ export default function CreateCard({ navigation }) {
             <View style={[styles.input, styles.selectBox]}>
               <RNPickerSelect
                 value={category}
-                onValueChange={setCategory}
+                onValueChange={handleSelect}
                 placeholder={{
-                  label: language.selectCategory,
+                  label: "Category",
                   value: "",
                 }}
                 items={[
-                  { label: language.horror, value: "Horror" },
-                  { label: language.detective, value: "Detective" },
-                  { label: language.funny, value: "Funny" },
+                  { label: "Horror", value: "Horror" },
+                  { label: "Detective", value: "Detective" },
+                  { label: "Funny", value: "Funny" },
                 ]}
               />
             </View>

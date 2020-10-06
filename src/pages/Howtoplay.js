@@ -11,9 +11,26 @@ import {
   AsyncStorage,
 } from "react-native";
 import Menu, { menuStyle } from "../components/Menu";
-import api from "../services/api";
+import languageJson from "../json/lang.json";
 
 export default function Howto({ navigation }) {
+  const [language, setLanguage] = useState("");
+  let languageParam = navigation.getParam("languageParam");
+
+  useEffect(() => {
+    AsyncStorage.multiGet(["user_id", "language"]).then(([user, lang]) => {
+      // if (!user) {
+      //   navigation.navigate("Login");
+      // }
+      if (!lang[1] || lang[1] == "eng") {
+        AsyncStorage.setItem("language", "eng");
+        setLanguage(languageJson.Howto.eng);
+      } else if (lang[1] == "pt-br") {
+        setLanguage(languageJson.Howto.ptBr);
+      }
+    });
+  }, [languageParam]);
+
   function handleGoBack() {
     navigation.navigate("Dashboard");
   }
@@ -29,8 +46,8 @@ export default function Howto({ navigation }) {
       />
       <Menu />
       <View style={styles.form}>
-        <Text style={styles.label}>How to play.</Text>
-        <Text style={styles.label}>This is how to play</Text>
+        <Text style={styles.label}>{language.title}:</Text>
+        <Text style={styles.label}>{language.text}</Text>
 
         <View style={styles.linkView}>
           <Text onPress={handleGoBack} style={styles.link}>

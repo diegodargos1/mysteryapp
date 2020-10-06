@@ -2,19 +2,21 @@
   "Dashboard": {
     "eng": {
       "search": "Search for a card",
-      "random": "Random card",
-      "create": "Create a new card",
+      "random": "Open a card",
+      "create": "Create a card",
       "myCard": "My cards",
       "top": "Top rated cards",
-      "howTo": "How to play"
+      "howTo": "How to play",
+      "settings": "Settings"
     },
     "ptBr": {
       "search": "Procurar carta",
-      "random": "Carta aleatória",
+      "random": "Abrir uma carta",
       "create": "Crie sua carta",
       "myCard": "Minhas cartas",
       "top": "Mais votadas",
-      "howTo": "Como jogar"
+      "howTo": "Como jogar",
+      "settings": "Configurações"
     }
   },
   "Settings": {
@@ -81,6 +83,26 @@
       "funny": "Engraçado",
       "detective": "Detetive",
       "selectCategory": "Selecione..."
+    }
+  },
+  "Howto": {
+    "eng": {
+      "text": "The player holding the app will be the host. \nThe host will read the mystery to the other players. \nAfter that, the players have to ask questions about the mystery, but the answer could only be Yes or No, until the players solve the mystery on the resolution part of the card.",
+      "title": "How to play"
+    },
+    "ptBr": {
+      "text": "O jogador que estiver segurando o celular será o narrador. \nO narrador deve ler o mistério para os outros jogadores. \nApós a leitura do mistério feita, os jogadores deverão fazer perguntas onde a reposta só poderá ser Sim ou Não, até que os jogadores cheguem à resolução do mistério escrito na parte de trás da carta.",
+      "title": "Como jogar"
+    }
+  },
+  "About": {
+    "eng": {
+      "text": "This app was developed by Diego Dargos.\nDiego is a brazilian web developer living in Vancouver, Canada.\nFor more information go to ",
+      "credits": "Credits to Isadora Labaki @isadoralabaki for the images and logo."
+    },
+    "ptBr": {
+      "text": "Esse app foi desenvolvido por Diego Dargos.\nDiego é um desenvolvedor web brasileiro morando em Vancouver, Canadá. \nPara mais informações entre em",
+      "credits": "Créditos para Isadora Labaki @isadoralabaki pelas imagens e pela logo."
     }
   }
 }

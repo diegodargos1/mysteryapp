@@ -15,11 +15,10 @@ import {
   Animated,
 } from "react-native";
 
-import { AdMobInterstitial } from "expo-ads-admob";
-
+// import { AdMobInterstitial } from "expo-ads-admob";
 import api from "../services/api";
 
-export default function Card({ navigation }) {
+export default function Cardbkp({ navigation }) {
   const [starCount, setStarCount] = useState(0);
   const [_title, setTitle] = useState("");
   const [_category, setCategory] = useState("");
@@ -27,39 +26,39 @@ export default function Card({ navigation }) {
   const [_mystery, setMystery] = useState("");
   const [mystery_id, setMystery_id] = useState("");
   const [userId, setUserId] = useState("");
-  const card = navigation.getParam("cardData");
-
-  let [opacity] = useState(new Animated.Value(0));
-  let [cardOpacity] = useState(new Animated.Value(1));
   const cardImg = [
     require(`../assets/backcard-1.png`),
     require(`../assets/backcard-2.png`),
   ];
 
-  useEffect(() => {
-    async function showAds() {
-      const ads = await AsyncStorage.getItem("ads");
-      if (!ads) {
-        AsyncStorage.setItem("ads", "1");
-        if (Platform.OS === "ios") {
-          AdMobInterstitial.setAdUnitID(
-            "ca-app-pub-6563320699543673/3700977952"
-          );
-        } else if (Platform.OS === "android") {
-          AdMobInterstitial.setAdUnitID(
-            "ca-app-pub-6563320699543673/8575112252"
-          );
-        }
+  let [opacity] = useState(new Animated.Value(0));
+  let [cardOpacity] = useState(new Animated.Value(1));
+  const card = navigation.getParam("cardData");
 
-        await AdMobInterstitial.requestAdAsync({
-          servePersonalizedAds: true,
-        });
-        await AdMobInterstitial.showAdAsync();
-      } else {
-        await AsyncStorage.removeItem("ads");
-      }
-    }
-    showAds();
+  useEffect(() => {
+    // async function showAds() {
+    //   const ads = await AsyncStorage.getItem("ads");
+    //   if (!ads) {
+    //     AsyncStorage.setItem("ads", "1");
+    //     if (Platform.OS === "ios") {
+    //       AdMobInterstitial.setAdUnitID(
+    //         "ca-app-pub-6563320699543673/3700977952"
+    //       );
+    //     } else if (Platform.OS === "android") {
+    //       AdMobInterstitial.setAdUnitID(
+    //         "ca-app-pub-6563320699543673/8575112252"
+    //       );
+    //     }
+
+    //     await AdMobInterstitial.requestAdAsync({
+    //       servePersonalizedAds: true,
+    //     });
+    //     await AdMobInterstitial.showAdAsync();
+    //   } else {
+    //     await AsyncStorage.removeItem("ads");
+    //   }
+    // }
+    // showAds();
 
     AsyncStorage.getItem("user_id").then((user) => {
       if (!user) {
@@ -74,10 +73,9 @@ export default function Card({ navigation }) {
         setMystery_id(_id);
         setUserId(user);
 
-        let rating = await api.get("/rating", {
+        const rating = await api.get("/rating", {
           params: { mystery_id: _id },
         });
-        rating.data = Math.round(rating.data);
         setStarCount(rating.data);
         Animated.timing(opacity, {
           toValue: 1,
@@ -89,27 +87,17 @@ export default function Card({ navigation }) {
     });
   }, []);
 
-  async function handleLike() {
+  async function onStarRatingPress(rating) {
+    setStarCount(rating);
     const res = await api.post(
       "/rating",
-      { mystery_id, rating: 1 },
+      { mystery_id, rating },
       {
         headers: { user_id: userId },
       }
     );
     alert(res.data.msg);
   }
-  async function handleDisLike() {
-    const res = await api.post(
-      "/rating",
-      { mystery_id, rating: 0 },
-      {
-        headers: { user_id: userId },
-      }
-    );
-    alert(res.data.msg);
-  }
-
   function sentenceCase(input, lowercaseBefore) {
     input = input === undefined || input === null ? "" : input;
     if (lowercaseBefore) {
@@ -122,33 +110,21 @@ export default function Card({ navigation }) {
       });
   }
 
-  function nextCard() {
-    navigation.push("RandomCard");
-  }
-  function homePage() {
-    navigation.navigate("Dashboard");
-  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
       enable={Platform.OS === "ios"}
       behavior="padding"
     >
-      <View style={[styles.cardButton]}>
-        <View style={[styles.nextCard]}>
-          <TouchableOpacity onPress={homePage} style={styles.button}>
-            <View style={styles.buttonTextBack}>
-              <Image
-                style={{ height: 50, width: 50 }}
-                source={require("../assets/backward.png")}
-              />
-              <Text>Home Page</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Image
+        source={require("../assets/background.png")}
+        style={styles.backgroundImg}
+      />
       <Animated.View style={(styles.cardMenu, { opacity: opacity })}>
         <View style={styles.cardLine}>
+          {/* <View style={styles.category}>
+            <Text style={styles.searchTitle}>Category: {_category}</Text>
+          </View> */}
           <CardFlip
             style={cardstyles.cardContainer}
             ref={(card) => {
@@ -178,10 +154,10 @@ export default function Card({ navigation }) {
                   marginTop: 103,
                   marginLeft: 40,
                   position: "absolute",
-                  width: 38,
+                  width: 35,
                 }}
               >
-                <Text style={{ textAlign: "center" }}>{starCount}%</Text>
+                <Text style={{ textAlign: "center" }}>{starCount}</Text>
               </View>
               <View style={styles.cardLable}>
                 <Text style={[styles.searchTitle, styles.headerMyst]}>
@@ -213,10 +189,10 @@ export default function Card({ navigation }) {
                   marginTop: 103,
                   marginLeft: 40,
                   position: "absolute",
-                  width: 38,
+                  width: 35,
                 }}
               >
-                <Text style={{ textAlign: "center" }}>{starCount}%</Text>
+                <Text style={{ textAlign: "center" }}>{starCount}</Text>
               </View>
               <View style={styles.cardLable}>
                 <Text style={[styles.searchTitle, styles.headerMyst]}>
@@ -229,49 +205,18 @@ export default function Card({ navigation }) {
             </TouchableOpacity>
           </CardFlip>
         </View>
+        <StarRating
+          disabled={false}
+          emptyStar={"ios-star-outline"}
+          fullStar={"ios-star"}
+          halfStar={"ios-star-half"}
+          iconSet={"Ionicons"}
+          maxStars={5}
+          rating={starCount}
+          selectedStar={(rating) => onStarRatingPress(rating)}
+          fullStarColor={"red"}
+        />
       </Animated.View>
-      <View style={[styles.cardButton, { justifyContent: "center" }]}>
-        <View
-          style={[
-            styles.nextCard,
-            {
-              backgroundColor: "white",
-              justifyContent: "center",
-              width: "30%",
-              opacity: 0.8,
-            },
-          ]}
-        >
-          <TouchableOpacity onPress={handleDisLike} style={styles.button}>
-            <View>
-              <Image
-                style={{ height: 50, width: 50 }}
-                source={require("../assets/unlike.png")}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={[
-            styles.nextCard,
-            {
-              backgroundColor: "white",
-              justifyContent: "center",
-              width: "30%",
-              opacity: 0.8,
-            },
-          ]}
-        >
-          <TouchableOpacity onPress={handleLike} style={styles.button}>
-            <View>
-              <Image
-                style={{ height: 50, width: 50 }}
-                source={require("../assets/like.png")}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -376,39 +321,5 @@ const styles = StyleSheet.create({
   },
   cardImg: {
     position: "absolute",
-  },
-  cardButton: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-    marginVertical: 15,
-  },
-  nextCard: {
-    flexDirection: "row",
-    width: "40%",
-    height: 60,
-    marginHorizontal: "5%",
-    backgroundColor: "white",
-    borderRadius: 4,
-    alignContent: "center",
-    alignItems: "center",
-    opacity: 0.8,
-  },
-
-  buttonText: {
-    alignContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    alignSelf: "center",
-    width: "100%",
-    paddingHorizontal: 35,
-  },
-  buttonTextBack: {
-    alignContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    alignSelf: "center",
-    width: "100%",
-    paddingHorizontal: 10,
   },
 });

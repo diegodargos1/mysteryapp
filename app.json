@@ -4,7 +4,11 @@
     "slug": "Mystery",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +20,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "package": "com.dargos.themystery",
       "versionCode": 1,
@@ -31,6 +37,7 @@
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-6563320699543673~2962611359"
       }
-    }
+    },
+    "description": ""
   }
 }

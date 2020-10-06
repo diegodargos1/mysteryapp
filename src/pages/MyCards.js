@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import SearchedCards from "../components/SearchedCards";
 import Menu, { menuStyle } from "../components/Menu";
@@ -20,15 +20,15 @@ export default function MyCards({ navigation }) {
 
   useEffect(() => {
     async function session() {
-      const user = await AsyncStorage.getItem("user_id").then(user => {
+      const user = await AsyncStorage.getItem("user_id").then((user) => {
         if (!user) {
-          navigation.navigate("Login");
+          //navigation.navigate("Login");
         }
         return user;
       });
 
       const res = await api.get("/mymystery", {
-        params: { user_id: user }
+        params: { user_id: user },
       });
 
       setResult(res.data.data);
@@ -50,7 +50,7 @@ export default function MyCards({ navigation }) {
       <Menu />
       <ScrollView contentContainerStyle={styles.cardMenu}>
         <View style={styles.cardRow}>
-          {result.map(t => {
+          {result.map((t) => {
             return <SearchedCards cardData={t} key={t._id} />;
           })}
         </View>
@@ -63,29 +63,29 @@ const styles = StyleSheet.create({
   backgroundImg: {
     height: 1000,
     position: "absolute",
-    resizeMode: "cover"
+    resizeMode: "cover",
   },
   container: {
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "black"
+    backgroundColor: "black",
   },
 
   cardMenu: {
     flexDirection: "column",
-    marginVertical: 20
+    marginVertical: 20,
   },
   cardColumn: {
     flexDirection: "column",
     alignSelf: "flex-start",
     marginHorizontal: 10,
-    marginTop: 20
+    marginTop: 20,
   },
   cardRow: {
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
-    width: "100%"
-  }
+    width: "100%",
+  },
 });

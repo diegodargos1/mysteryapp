@@ -22,7 +22,7 @@ export default function TopRated({ navigation }) {
     async function session() {
       const user = await AsyncStorage.getItem("user_id").then((user) => {
         if (!user) {
-          navigation.navigate("Login");
+          //navigation.navigate("Login");
         }
         return user;
       });

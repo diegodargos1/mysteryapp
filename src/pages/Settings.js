@@ -21,7 +21,7 @@ export default function Settings({ navigation }) {
     AsyncStorage.getItem("language").then((lang) => {
       if (!lang || lang == "eng") {
         AsyncStorage.setItem("language", "eng");
-        setLanguage(lang);
+        setLanguage("eng");
         setLanguageObj(languageJson.Settings.eng);
       } else if (lang == "pt-br") {
         setLanguage(lang);
@@ -65,7 +65,7 @@ export default function Settings({ navigation }) {
               value={language}
               onValueChange={handleLanguage}
               placeholder={{
-                label: languageObj.select,
+                label: "Select",
                 value: "",
               }}
               placeholderTextColor="black"
@@ -80,17 +80,17 @@ export default function Settings({ navigation }) {
               <Text>{languageObj.about}</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleContact}>
+          {/* <TouchableOpacity onPress={handleContact}>
             <View style={styles.card}>
               <Text>{languageObj.contact}</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <TouchableOpacity onPress={handleLogout}>
+          {/* <TouchableOpacity onPress={handleLogout}>
             <View style={styles.card}>
               <Text>{languageObj.logout}</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </KeyboardAvoidingView>

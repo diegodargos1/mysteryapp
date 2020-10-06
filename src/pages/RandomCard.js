@@ -16,6 +16,7 @@ import {
 } from "react-native";
 
 import { AdMobInterstitial } from "expo-ads-admob";
+
 import api from "../services/api";
 
 export default function RandomCard({ navigation }) {
@@ -26,6 +27,7 @@ export default function RandomCard({ navigation }) {
   const [_mystery, setMystery] = useState("");
   const [mystery_id, setMystery_id] = useState("");
   const [userId, setUserId] = useState("");
+  const [language, setLanguage] = useState("");
 
   let [opacity] = useState(new Animated.Value(0));
   let [cardOpacity] = useState(new Animated.Value(1));
@@ -64,7 +66,10 @@ export default function RandomCard({ navigation }) {
         navigation.navigate("Login");
       }
       async function getCard() {
-        const res = await api.get("/mystery");
+        const lang = await AsyncStorage.getItem("language");
+        const res = await api.get("/mystery", {
+          params: { language: lang },
+        });
         const { title, category, resolution, mystery, _id } = res.data;
         setTitle(title.toUpperCase());
         setCategory(category);
@@ -73,9 +78,10 @@ export default function RandomCard({ navigation }) {
         setMystery_id(_id);
         setUserId(user);
 
-        const rating = await api.get("/rating", {
+        let rating = await api.get("/rating", {
           params: { mystery_id: _id },
         });
+        rating.data = Math.round(rating.data);
         setStarCount(rating.data);
         Animated.timing(opacity, {
           toValue: 1,
@@ -87,17 +93,27 @@ export default function RandomCard({ navigation }) {
     });
   }, []);
 
-  async function onStarRatingPress(rating) {
-    //setStarCount(rating);
+  async function handleLike() {
     const res = await api.post(
       "/rating",
-      { mystery_id, rating },
+      { mystery_id, rating: 1 },
       {
         headers: { user_id: userId },
       }
     );
     alert(res.data.msg);
   }
+  async function handleDisLike() {
+    const res = await api.post(
+      "/rating",
+      { mystery_id, rating: 0 },
+      {
+        headers: { user_id: userId },
+      }
+    );
+    alert(res.data.msg);
+  }
+
   function sentenceCase(input, lowercaseBefore) {
     input = input === undefined || input === null ? "" : input;
     if (lowercaseBefore) {
@@ -110,21 +126,44 @@ export default function RandomCard({ navigation }) {
       });
   }
 
+  function nextCard() {
+    navigation.push("RandomCard");
+  }
+  function homePage() {
+    navigation.navigate("Dashboard");
+  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
       enable={Platform.OS === "ios"}
       behavior="padding"
     >
-      <Image
-        source={require("../assets/background.png")}
-        style={styles.backgroundImg}
-      />
+      <View style={[styles.cardButton]}>
+        <View style={[styles.nextCard]}>
+          <TouchableOpacity onPress={homePage} style={styles.button}>
+            <View style={styles.buttonTextBack}>
+              <Image
+                style={{ height: 50, width: 50 }}
+                source={require("../assets/backward.png")}
+              />
+              <Text>Home Page</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.nextCard]}>
+          <TouchableOpacity onPress={nextCard} style={styles.button}>
+            <View style={styles.buttonText}>
+              <Text>Next Card</Text>
+              <Image
+                style={{ height: 50, width: 50 }}
+                source={require("../assets/forward.png")}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
       <Animated.View style={(styles.cardMenu, { opacity: opacity })}>
         <View style={styles.cardLine}>
-          {/* <View style={styles.category}>
-            <Text style={styles.searchTitle}>Category: {_category}</Text>
-          </View> */}
           <CardFlip
             style={cardstyles.cardContainer}
             ref={(card) => {
@@ -154,10 +193,10 @@ export default function RandomCard({ navigation }) {
                   marginTop: 103,
                   marginLeft: 40,
                   position: "absolute",
-                  width: 35,
+                  width: 38,
                 }}
               >
-                <Text style={{ textAlign: "center" }}>{starCount}</Text>
+                <Text style={{ textAlign: "center" }}>{starCount}%</Text>
               </View>
               <View style={styles.cardLable}>
                 <Text style={[styles.searchTitle, styles.headerMyst]}>
@@ -189,10 +228,10 @@ export default function RandomCard({ navigation }) {
                   marginTop: 103,
                   marginLeft: 40,
                   position: "absolute",
-                  width: 35,
+                  width: 38,
                 }}
               >
-                <Text style={{ textAlign: "center" }}>{starCount}</Text>
+                <Text style={{ textAlign: "center" }}>{starCount}%</Text>
               </View>
               <View style={styles.cardLable}>
                 <Text style={[styles.searchTitle, styles.headerMyst]}>
@@ -205,18 +244,49 @@ export default function RandomCard({ navigation }) {
             </TouchableOpacity>
           </CardFlip>
         </View>
-        <StarRating
-          disabled={false}
-          emptyStar={"ios-star-outline"}
-          fullStar={"ios-star"}
-          halfStar={"ios-star-half"}
-          iconSet={"Ionicons"}
-          maxStars={5}
-          rating={starCount}
-          selectedStar={(rating) => onStarRatingPress(rating)}
-          fullStarColor={"red"}
-        />
       </Animated.View>
+      <View style={[styles.cardButton, { justifyContent: "center" }]}>
+        <View
+          style={[
+            styles.nextCard,
+            {
+              backgroundColor: "white",
+              justifyContent: "center",
+              width: "30%",
+              opacity: 0.8,
+            },
+          ]}
+        >
+          <TouchableOpacity onPress={handleDisLike} style={styles.button}>
+            <View>
+              <Image
+                style={{ height: 50, width: 50 }}
+                source={require("../assets/unlike.png")}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={[
+            styles.nextCard,
+            {
+              backgroundColor: "white",
+              justifyContent: "center",
+              width: "30%",
+              opacity: 0.8,
+            },
+          ]}
+        >
+          <TouchableOpacity onPress={handleLike} style={styles.button}>
+            <View>
+              <Image
+                style={{ height: 50, width: 50 }}
+                source={require("../assets/like.png")}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -321,5 +391,39 @@ const styles = StyleSheet.create({
   },
   cardImg: {
     position: "absolute",
+  },
+  cardButton: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    marginVertical: 15,
+  },
+  nextCard: {
+    flexDirection: "row",
+    width: "40%",
+    height: 60,
+    marginHorizontal: "5%",
+    backgroundColor: "white",
+    borderRadius: 4,
+    alignContent: "center",
+    alignItems: "center",
+    opacity: 0.8,
+  },
+
+  buttonText: {
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    alignSelf: "center",
+    width: "100%",
+    paddingHorizontal: 35,
+  },
+  buttonTextBack: {
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    alignSelf: "center",
+    width: "100%",
+    paddingHorizontal: 10,
   },
 });

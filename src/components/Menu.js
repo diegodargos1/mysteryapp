@@ -30,9 +30,8 @@ function Menu({ navigation }) {
       <View style={styles.titleLabel}>
         <Text style={styles.title}>THE MYSTERY</Text>
       </View>
-      <TouchableOpacity onPress={handleSettings}>
-        <Image source={settings} style={styles.settings} />
-      </TouchableOpacity>
+
+      <Image source={settings} style={styles.settings} />
     </View>
   );
 }
@@ -64,8 +63,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
   },
   settings: {
-    height: 20,
-    width: 20,
+    height: 30,
+    width: 30,
+    opacity: 0,
   },
 });
 

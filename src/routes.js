@@ -21,7 +21,13 @@ const App = createStackNavigator(
     Settings,
     SearchCard,
     CreateCard,
-    RandomCard,
+    RandomCard: {
+      screen: RandomCard,
+      navigationOptions: {
+        mode: "modal",
+        gestureEnabled: false,
+      },
+    },
     Contact,
     About,
     Howto,
@@ -29,6 +35,7 @@ const App = createStackNavigator(
       screen: Card,
       navigationOptions: {
         mode: "modal",
+        gestureEnabled: false,
       },
     },
     MyCards,
@@ -40,8 +47,8 @@ const App = createStackNavigator(
 
 const Routes = createAppContainer(
   createSwitchNavigator({
-    Login,
-    Register,
+    //Login,
+    //Register,
     App,
   })
 );
